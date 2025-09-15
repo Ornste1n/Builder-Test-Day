@@ -16,8 +16,8 @@ MonoBehaviour:
   <Height>k__BackingField: 32
   <CellSize>k__BackingField: 5
   <Origin>k__BackingField: {x: 0, y: 0, z: 0}
-  <DefaultColorA>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <DefaultColorB>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <DefaultColorA>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  <DefaultColorB>k__BackingField: {r: 0.10588235, g: 0.7764706, b: 0.63719213, a: 1}
   <CanPlaceColor>k__BackingField: {r: 0, g: 1, b: 0, a: 0.5}
   <CannotPlaceColor>k__BackingField: {r: 1, g: 0, b: 0, a: 0.5}
   <TileMaterial>k__BackingField: {fileID: 2100000, guid: 796836ace3477394da4303a293636e02, type: 2}

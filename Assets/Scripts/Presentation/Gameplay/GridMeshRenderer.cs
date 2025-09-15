@@ -1,6 +1,7 @@
-using Repositories.Application;
 using UnityEngine;
+using Repositories.Application;
 
+//todo рефакторить
 namespace Presentation.Gameplay
 {
     public class GridMeshRenderer : MonoBehaviour
