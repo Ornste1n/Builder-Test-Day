@@ -7,7 +7,7 @@ namespace Utilities.Editor.PhotoTools
 {
     public static class CameraTextureRenderer
     {
-        private const string FilePath = "Assets/Game/Source/UI/Generated Icon/icon.png";
+        private const string FilePath = "Assets/Content/2D/Sprites/Generated Icon/icon.png";
         
         public static RendererTextureSettingsWindow.TextureRenderSettings Settings { get; set; }
             = new (512, 512, 1, 1, RenderTextureFormat.ARGB32);

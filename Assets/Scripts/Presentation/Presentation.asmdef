@@ -1,0 +1,19 @@
+{
+    "name": "Presentation",
+    "rootNamespace": "",
+    "references": [
+        "Domain",
+        "Application",
+        "Repositories",
+        "AYellowpaper.SerializedCollections"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

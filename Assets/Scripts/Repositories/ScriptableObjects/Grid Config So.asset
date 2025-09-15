@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24835ed6edd3e3142bcf92c2e6c7449d, type: 3}
+  m_Name: Grid Config So
+  m_EditorClassIdentifier: 
+  <Width>k__BackingField: 32
+  <Height>k__BackingField: 32
+  <CellSize>k__BackingField: 5
+  <Origin>k__BackingField: {x: 0, y: 0, z: 0}
+  <DefaultColorA>k__BackingField: {r: 0.20263492, g: 0.3962264, b: 0.08036668, a: 1}
+  <DefaultColorB>k__BackingField: {r: 0.08085274, g: 0.18867922, b: 0.032929864, a: 1}
+  <CanPlaceColor>k__BackingField: {r: 0, g: 0.98039216, b: 0.0013454288, a: 0.5}
+  <CannotPlaceColor>k__BackingField: {r: 1, g: 0, b: 0, a: 0.5}
+  <TileMaterial>k__BackingField: {fileID: 2100000, guid: 796836ace3477394da4303a293636e02, type: 2}

@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="BuildigsSelectionPanel" src="project://database/Assets/Scripts/Presentation/Gameplay/UI/Frontend/Uxml/BuildigsSelectionPanel.uxml?fileID=9197481963319205126&amp;guid=84635ff97659c2d4f8c737f116ed751d&amp;type=3#BuildigsSelectionPanel" />
+    <Style src="project://database/Assets/Scripts/Presentation/Gameplay/UI/Frontend/Uss/BuildingSelectionPanelStyle.uss?fileID=7433441132597879392&amp;guid=b9e3f4988484a864c964249e7120dd66&amp;type=3#BuildingSelectionPanelStyle" />
+    <ui:Instance template="BuildigsSelectionPanel" name="Building-selection-panel" style="position: absolute; bottom: 15px; width: 70%; height: 10%; align-self: center;" />
+</ui:UXML>
