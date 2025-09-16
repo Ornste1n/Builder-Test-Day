@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Scripts/Presentation/Gameplay/UI/Frontend/Uss/BuildItemStyle.uss?fileID=7433441132597879392&amp;guid=3702499c073db444984590abf9e78029&amp;type=3#BuildItemStyle" />
-    <ui:VisualElement name="build-item" class="BuildItemPanel" style="flex-grow: 1;">
-        <ui:VisualElement name="build-icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Content/2D/Sprites/Generated%20Icon/FarmSprite.png?fileID=2800000&amp;guid=b4e61b7bcb0f292418a9970fc4841a26&amp;type=3#FarmSprite&quot;);" />
+    <Style src="project://database/Assets/Scripts/Presentation/UI/Frontend/Uss/BuildItemStyle.uss?fileID=7433441132597879392&amp;guid=3702499c073db444984590abf9e78029&amp;type=3#BuildItemStyle" />
+    <ui:VisualElement name="build-item" class="BuildItemPanel">
+        <ui:VisualElement name="build-icon" style="flex-grow: 1; background-image: none; background-size: 90% 90%;" />
     </ui:VisualElement>
 </ui:UXML>

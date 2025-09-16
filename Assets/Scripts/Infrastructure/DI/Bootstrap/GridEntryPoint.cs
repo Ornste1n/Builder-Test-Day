@@ -1,12 +1,10 @@
 using System;
-using Application.Interfaces.Grid;
 using MessagePipe;
 using VContainer.Unity;
-using Domain.MessagesDTO;
-using Application.UseCases;
 using Application.UseCases.Grid;
+using Application.Interfaces.Grid;
 
-namespace Infrastructure.Bootstrap
+namespace Infrastructure.DI.Bootstrap
 {
     public class GridEntryPoint : IStartable, IDisposable
     {

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7c35e5ef784a409b1a95536ea19a6f, type: 3}
   m_Name: Mine
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 70f269834f39db74ca9e7825d5be747b, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 70f269834f39db74ca9e7825d5be747b, type: 3}
   _buildingLevels:
     _serializedList: []

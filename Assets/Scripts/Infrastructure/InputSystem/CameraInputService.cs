@@ -1,8 +1,8 @@
-﻿using MessagePipe;
+﻿using System;
+using MessagePipe;
 using UnityEngine;
 using System.Threading;
 using Application.Messages;
-using Domain.MessagesDTO;
 using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -17,6 +17,7 @@ namespace Infrastructure.InputSystem
         private readonly IPublisher<CameraMoveMsg> _movePublisher;
         private readonly IPublisher<CameraZoomMsg> _zoomPublisher;
         
+        private Vector2 _direction;
         private CancellationTokenSource _cts;
         
         public CameraInputService
@@ -43,9 +44,9 @@ namespace Infrastructure.InputSystem
             camera.RightClick.started += DragStarted;
             camera.RightClick.canceled += DragCanceled;
             
-            camera.Move.started += OnArrow;
-            camera.Move.performed += OnArrow;
-            camera.Move.canceled += OnArrow;
+            camera.Move.started += MoveStarted;
+            camera.Move.performed += MovePerformed;
+            camera.Move.canceled += MoveCanceled;
         }
         
         private void HandleZoom(InputAction.CallbackContext ctx)
@@ -60,11 +61,36 @@ namespace Infrastructure.InputSystem
             DragLoopAsync(_cts.Token).Forget();
         }
 
-        private void DragCanceled(InputAction.CallbackContext obj)
+        private void DragCanceled(InputAction.CallbackContext ctx) => TryTokenDispose();
+
+        private void MoveStarted(InputAction.CallbackContext ctx)
         {
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _cts = null;
+            _cts = new CancellationTokenSource();
+            ReadMoveDirection(ctx);
+            MoveLoopAsync(_cts.Token).Forget();
+        }
+
+        private void MovePerformed(InputAction.CallbackContext ctx) => ReadMoveDirection(ctx);
+        
+        private void MoveCanceled(InputAction.CallbackContext ctx) => TryTokenDispose();
+        
+        private void ReadMoveDirection(InputAction.CallbackContext ctx)
+        {
+            _direction = ctx.ReadValue<Vector2>();
+            _direction.Normalize();
+        }
+        
+        private async UniTaskVoid MoveLoopAsync(CancellationToken token)
+        {
+            try
+            {
+                while (!token.IsCancellationRequested && _direction != Vector2.zero)
+                {
+                    _movePublisher.Publish(new CameraMoveMsg(_direction));
+                    await UniTask.Yield(PlayerLoopTiming.Update, token);
+                }
+            }
+            catch (OperationCanceledException) { }
         }
         
         private async UniTaskVoid DragLoopAsync(CancellationToken token)
@@ -83,26 +109,23 @@ namespace Infrastructure.InputSystem
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
             }
         }
-        
-        private void OnArrow(InputAction.CallbackContext ctx)
-        {
-            Vector2 direction = ctx.ReadValue<Vector2>();
-            direction.Normalize();
-            _movePublisher.Publish(new CameraMoveMsg(direction));
-        }
 
-        public void Dispose()
+        private void TryTokenDispose()
         {
             _cts?.Cancel();
             _cts?.Dispose();
             _cts = null;
-            
-            _inputControls.Camera.Move.started -= OnArrow;
-            _inputControls.Camera.Move.performed -= OnArrow;
-            _inputControls.Camera.Move.canceled -= OnArrow;
-            
-            _inputControls.Camera.RightClick.started -= DragStarted;
-            _inputControls.Camera.RightClick.canceled -= DragCanceled;
+        }
+        
+        public void Dispose()
+        {
+            TryTokenDispose();
+
+            InputSystemControls.CameraActions camera = _inputControls.Camera;
+            camera.Move.started -= MoveStarted;
+            camera.Move.canceled -= MoveCanceled;
+            camera.RightClick.started -= DragStarted;
+            camera.RightClick.canceled -= DragCanceled;
         }
     }
 }

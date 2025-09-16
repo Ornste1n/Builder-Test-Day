@@ -4,15 +4,16 @@ using MessagePipe;
 using Repositories;
 using VContainer.Unity;
 using Infrastructure.Grid;
-using Application.UseCases;
+using Application.Interfaces;
 using UnityEngine.UIElements;
 using Presentation.Presenters;
 using Infrastructure.Bootstrap;
-using Presentation.UI.Frontend;
+using Application.UseCases.Grid;
+using System.Collections.Generic;
 using Infrastructure.InputSystem;
 using Application.Interfaces.Grid;
 using Application.UseCases.Camera;
-using Application.UseCases.Grid;
+using Infrastructure.DI.Bootstrap;
 using GridMeshRenderer = Presentation.GridMeshRenderer;
 
 namespace Infrastructure.DI.Installers
@@ -21,8 +22,6 @@ namespace Infrastructure.DI.Installers
     {
         [SerializeField] private UIDocument _uiDocument;
         [SerializeField] private GridConfigSo _gridConfig;
-        [SerializeField] private BuildingCatalogConfig _buildingCatalog;
-        [SerializeField] private BuildingUIConfig _buildingUIConfig; 
         [SerializeField] private GridMeshRenderer _gridMeshRenderer;
         [SerializeField] private CameraPresenter _cameraPresenter;
         [SerializeField] private CameraMovementConfig _cameraMovementConfig;
@@ -32,9 +31,7 @@ namespace Infrastructure.DI.Installers
             InputSystemControls controls = new();
             controls.Enable();
             builder.RegisterInstance(controls).As<InputSystemControls>().AsSelf();
-            
-            builder.RegisterInstance(_buildingUIConfig).As<BuildingUIConfig>().AsSelf();
-            builder.RegisterInstance(_buildingCatalog).As<BuildingCatalogConfig>().AsSelf();
+
             builder.RegisterInstance(_uiDocument).As<UIDocument>().WithParameter(Lifetime.Singleton);
 
             builder.RegisterInstance(_gridConfig).As<IGridConfig>().AsSelf();
@@ -45,18 +42,23 @@ namespace Infrastructure.DI.Installers
             builder.RegisterMessagePipe();
             
             builder.Register<GridRenderPublisher>(Lifetime.Singleton).As<IGridRenderPublisher>();
+            builder.Register<CameraInputAdapter>(Lifetime.Singleton).As<ICameraInput>();
             
             // возможно вынести в другой скоуп application
             builder.Register<IGridRepository, GridRepository>(Lifetime.Singleton);
             builder.Register<CameraInputService>(Lifetime.Singleton);
             builder.Register<InitializeGridUseCase>(Lifetime.Singleton);
  
-            builder.Register<CameraController>(Lifetime.Singleton);
-            builder.Register<BuildingBar>(Lifetime.Singleton);
+            builder.Register<CameraController>(Lifetime.Singleton).As<INonLazy>().AsSelf(); 
             
-            builder.RegisterEntryPoint<CameraController>();
+            builder.RegisterEntryPoint<CameraInputService>();
             builder.RegisterEntryPoint<BootstrapCameraInputService>();
             builder.RegisterEntryPoint<GridEntryPoint>();
+            
+            builder.RegisterBuildCallback(container =>
+            {
+                container.Resolve<IEnumerable<INonLazy>>();
+            });
         }
     }
 }

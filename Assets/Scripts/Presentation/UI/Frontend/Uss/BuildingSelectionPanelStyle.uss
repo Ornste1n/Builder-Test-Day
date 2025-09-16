@@ -1,20 +1,25 @@
 .BuildingSelectionPanel {
     background-image: url("project://database/Assets/Content/2D/UI/Extras/Rects/rectRy8.png?fileID=21300000&guid=07d91d9460b9e0c47b239fe98e5e0395&type=3#rectRy8");
     -unity-background-image-tint-color: rgb(24, 24, 24);
-    align-items: center;
+    align-items: flex-end;
     align-content: center;
     flex-direction: row;
     justify-content: center;
-    border-top-width: 4px;
-    border-right-width: 4px;
-    border-bottom-width: 4px;
-    border-left-width: 4px;
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
     border-left-color: rgb(47, 47, 47);
     border-right-color: rgb(47, 47, 47);
     border-top-color: rgb(47, 47, 47);
     border-bottom-color: rgb(47, 47, 47);
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    width: 65%;
+    height: 138px;
+    bottom: 12px;
+    position: absolute;
+    align-self: center;
 }

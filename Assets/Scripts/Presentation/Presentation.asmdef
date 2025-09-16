@@ -5,7 +5,8 @@
         "Domain",
         "Application",
         "Repositories",
-        "AYellowpaper.SerializedCollections"
+        "AYellowpaper.SerializedCollections",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

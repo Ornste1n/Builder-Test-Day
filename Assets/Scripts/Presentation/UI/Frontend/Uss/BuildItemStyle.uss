@@ -1,7 +1,7 @@
 .BuildItemPanel {
     background-image: url("project://database/Assets/Content/2D/UI/Extras/Rects/SquareRy8.png?fileID=21300000&guid=02bc6413e9c541c4c8fd2e7501c27232&type=3#SquareRy8");
     -unity-background-image-tint-color: rgb(38, 38, 38);
-    width: 95px;
+    width: 105px;
     height: 95px;
     margin-right: 20px;
     border-left-color: rgb(113, 113, 113);
@@ -16,4 +16,15 @@
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
+    background-size: 100% 100%;
+    flex-shrink: 0;
+    bottom: 15px;
+    top: auto;
+}
+
+.BuildItemPanel:hover:enabled {
+    border-left-color: rgb(11, 255, 128);
+    border-right-color: rgb(11, 255, 128);
+    border-top-color: rgb(11, 255, 128);
+    border-bottom-color: rgb(11, 255, 128);
 }

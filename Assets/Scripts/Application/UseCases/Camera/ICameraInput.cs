@@ -1,12 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using Application.Interfaces;
 
 namespace Application.UseCases.Camera
 {
     public interface ICameraInput
     {
-        IObservable<Vector2> OnDrag { get; }
-        IObservable<Vector2> OnMove { get; }
-        IObservable<float> OnZoom { get; }
+        IEvent<Vector2> OnDrag { get; }
+        IEvent<Vector2> OnMove { get; }
+        IEvent<float>  OnZoom { get; }
     }
 }
