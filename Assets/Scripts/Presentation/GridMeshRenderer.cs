@@ -1,6 +1,6 @@
-using Application.Interfaces.Grid;
 using UnityEngine;
 using Application.UseCases.Grid;
+using Application.Interfaces.Grid;
 
 namespace Presentation
 {
@@ -8,6 +8,7 @@ namespace Presentation
     {
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private MeshFilter _meshFilter;
+        [SerializeField] private MeshCollider _meshCollider;
         
         private const int VertsPerCell = 4;
         private const int TrisPerCell = 2;
@@ -16,6 +17,7 @@ namespace Presentation
         {
             Mesh mesh = BuildMesh(data);
             _meshFilter.mesh = mesh;
+            _meshCollider.sharedMesh = mesh;
             _meshRenderer.material = data.GridMaterial;
         }
 

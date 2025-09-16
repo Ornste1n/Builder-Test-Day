@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Application.Interfaces;
+﻿using Application.Interfaces.Entity;
+using UnityEngine;
 
-namespace Application.UseCases.Camera
+namespace Application.Interfaces.Camera
 {
     public interface ICameraInput
     {

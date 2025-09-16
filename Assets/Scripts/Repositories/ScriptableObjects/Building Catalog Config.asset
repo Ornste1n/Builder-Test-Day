@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dd9290276584ce6bddef42be5e93a86, type: 3}
-  m_Name: BuildingsCatalog
+  m_Name: Building Catalog Config
   m_EditorClassIdentifier: 
   _buildingCatalog:
     _serializedList:

@@ -3,8 +3,10 @@ using UnityEngine;
 using Repositories;
 using VContainer.Unity;
 using Presentation.View;
+using Infrastructure.Building;
 using Presentation.Presenters;
 using Infrastructure.DI.Bootstrap;
+using Application.Interfaces.Buildings;
 
 namespace Infrastructure.DI.Installers
 { 
@@ -24,6 +26,7 @@ namespace Infrastructure.DI.Installers
             builder.Register<BuildingBarPresenter>(Lifetime.Singleton);
 
             builder.RegisterEntryPoint<PresentationBootstrap>();
+            builder.Register<ScriptableBuildingRepository>(Lifetime.Singleton).As<IBuildingRepository>();
         }
     }
 }

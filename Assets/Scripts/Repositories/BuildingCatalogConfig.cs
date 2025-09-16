@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using System.Linq;
 using Domain.Models.Buildings;
+using System.Collections.Generic;
+using Application.Interfaces.Buildings;
 using AYellowpaper.SerializedCollections;
 
-//todo возможно стоит пересмотреть реализацию каталога
 namespace Repositories
 {
     [CreateAssetMenu(menuName = "Configurations/Buildings/BuildingCatalogConfig")]
@@ -11,6 +13,7 @@ namespace Repositories
         [SerializeField, SerializedDictionary("Build Type", "Config Ref")] 
         private SerializedDictionary<BuildingType, BuildingConfig> _buildingCatalog;
 
-        public SerializedDictionary<BuildingType, BuildingConfig> Catalog => _buildingCatalog;
+        public IReadOnlyDictionary<BuildingType, IBuildingConfig> Catalog 
+            => _buildingCatalog.ToDictionary(kvp => kvp.Key, kvp => (IBuildingConfig)kvp.Value);
     }
 }

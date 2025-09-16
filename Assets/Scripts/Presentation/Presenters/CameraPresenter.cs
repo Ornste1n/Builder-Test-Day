@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Application.Interfaces.Camera;
+using UnityEngine;
 using Application.UseCases.Camera;
 
 namespace Presentation.Presenters

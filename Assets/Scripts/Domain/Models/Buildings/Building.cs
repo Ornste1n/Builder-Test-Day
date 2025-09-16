@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models.Buildings
 {
-    public class Building
+    public struct Building
     {
         public int Id { get; }
         public BuildingType BuildingType { get; }
@@ -10,6 +10,7 @@
         public Building(int id, BuildingType type, Position gridPosition)
         {
             Id = id;
+            CurrentLevel = 0;
             BuildingType = type;
             GridPosition = gridPosition;
         }

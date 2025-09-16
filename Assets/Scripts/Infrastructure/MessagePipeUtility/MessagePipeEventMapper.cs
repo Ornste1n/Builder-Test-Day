@@ -2,6 +2,7 @@
 using MessagePipe;
 using UnityEngine;
 using Application.Interfaces;
+using Application.Interfaces.Entity;
 
 namespace Infrastructure.MessagePipeUtility
 {

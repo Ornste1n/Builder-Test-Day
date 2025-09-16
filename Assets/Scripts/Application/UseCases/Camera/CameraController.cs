@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using Application.Interfaces;
+using Application.Interfaces.Camera;
+using Application.Interfaces.Entity;
 
 namespace Application.UseCases.Camera
 {

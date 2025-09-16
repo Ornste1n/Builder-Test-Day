@@ -1,5 +1,7 @@
-﻿using Application.UseCases.Camera;
+﻿using Application.Interfaces.Camera;
+using Application.UseCases.Camera;
 using Infrastructure.InputSystem;
+using Infrastructure.InputSystem.Services;
 using VContainer.Unity;
 
 namespace Infrastructure.Bootstrap

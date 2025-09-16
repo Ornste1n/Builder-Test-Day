@@ -1,11 +1,11 @@
 ﻿using MessagePipe;
 using UnityEngine;
-using Application.Interfaces;
 using Application.Messages;
-using Application.UseCases.Camera;
+using Application.Interfaces.Camera;
+using Application.Interfaces.Entity;
 using Infrastructure.MessagePipeUtility;
 
-namespace Infrastructure.InputSystem
+namespace Infrastructure.InputSystem.Adapters
 {
     public class CameraInputAdapter : ICameraInput
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Application.UseCases.Camera
+namespace Application.Interfaces.Camera
 {
     public interface ICameraMoveSettings
     {

@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Infrastructure.InputSystem
+namespace Infrastructure.InputSystem.Services
 {
     public class CameraInputService
     {

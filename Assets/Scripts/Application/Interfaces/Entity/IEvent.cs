@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Interfaces
+namespace Application.Interfaces.Entity
 {
     public interface IEvent<T>
     {

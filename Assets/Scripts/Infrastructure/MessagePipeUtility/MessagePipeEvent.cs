@@ -1,6 +1,7 @@
 ﻿using System;
 using MessagePipe;
 using Application.Interfaces;
+using Application.Interfaces.Entity;
 
 namespace Infrastructure.MessagePipeUtility
 {
