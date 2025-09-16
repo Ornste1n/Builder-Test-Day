@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Application.Interfaces.Buildings;
-using Repositories;
-using UnityEngine.UIElements;
+﻿using UnityEngine.UIElements;
 using Domain.Models.Buildings;
-using AYellowpaper.SerializedCollections;
+using Application.Interfaces.Buildings;
 
 namespace Presentation.View
 {
     public class BuildingBarView : LayoutViewBase
     {
-        public event Action OnBuildIconClicked;
-        
         protected override void InitializeElements() { }
         
         /// <summary>
@@ -20,8 +14,6 @@ namespace Presentation.View
         public void SetupPanel(IBuildingRepository repository,
             VisualTreeAsset template, EventCallback<ClickEvent> callback)
         {
-            UnityEngine.Debug.Log("Setup Panel");
-
             VisualElement container = root.Q<VisualElement>("building-panel");
             container.Clear();
 
@@ -31,8 +23,8 @@ namespace Presentation.View
                 VisualElement buildIcon = buildContainer.Q<VisualElement>("build-icon");
                 buildIcon.style.backgroundImage = new StyleBackground(config.Icon);
 
+                buildIcon.userData = type;
                 buildIcon.RegisterCallback(callback);
-                
                 container.Add(buildContainer);
             }
         }

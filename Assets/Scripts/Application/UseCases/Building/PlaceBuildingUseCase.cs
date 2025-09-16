@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Domain.Models.Buildings;
+using Application.Interfaces.Grid;
 using Application.Interfaces.Entity;
 using Application.Interfaces.Buildings;
 
@@ -9,97 +10,54 @@ namespace Application.UseCases.Building
     public class PlaceBuildingUseCase : INonLazy, IDisposable
     {
         private readonly IDisposable _startSub;
-        private readonly IDisposable _moveSub;
-        private readonly IDisposable _confirmSub;
-        private readonly IDisposable _cancelSub;
+        private IDisposable _confirmSub;
 
         private readonly IPlacementInput _input;
-        /*private readonly IBuildingValidator _validator; // domain проверки
-        private readonly IBuildingRepository _repo;
-        private readonly IBuildingFactory _factory;
-        private readonly IEventBus _eventBus; // опционально: публиковать изменения*/
+        private readonly IGridRepository _gridRepository;
+        private readonly IBuildingFactory _buildingFactory;
 
         private bool _isPlacing;
         private BuildingType _currentType;
-        private Vector3 _pointerPos;
 
-        public PlaceBuildingUseCase
-        (
-            IPlacementInput input
-            /*IBuildingValidator validator,
-            IBuildingRepository repo,
-            IBuildingFactory factory,
-            IEventBus eventBus // опционально*/
-        )
+        public PlaceBuildingUseCase(IPlacementInput input, IGridRepository gridRepository, 
+            IBuildingFactory buildingFactory)
         {
             _input = input;
-            /*_validator = validator;
-            _repo = repo;
-            _factory = factory;
-            _eventBus = eventBus;*/
+            _gridRepository = gridRepository;
+            _buildingFactory = buildingFactory;
 
-            Debug.Log("PlaceBuildingUseCase");
-            
-            // Подпишемся на входы
-            _startSub = _input.OnStartPlacement.Subscribe(HandleStart);
-            _moveSub = _input.OnPointerMove.Subscribe(HandlePointerMove);
-            _confirmSub = _input.OnConfirm.Subscribe(HandleConfirm);
-            /*_cancelSub = _input.OnCancel?.Subscribe(_ => HandleCancel()); // если OnCancel есть*/
+            _startSub = _input.OnStartPlacement.Subscribe(StartPlacement);
         }
 
-        private void HandleStart(BuildingType type)
+        private void StartPlacement(BuildingType type)
         {
             _currentType = type;
             _isPlacing = true;
-            Debug.Log("Handle Start");
-        }
-        
-        private void HandleConfirm(Vector3 worldPos)
-        {
-            Debug.Log("HandleConfirm");
+
+            _confirmSub?.Dispose();
+            _confirmSub = _input.OnConfirm.Subscribe(ConfirmPlacement);
         }
 
-        private void HandlePointerMove(Vector3 worldPos)
-        {
-            if (!_isPlacing) return;
-            _pointerPos = worldPos;
-            // логика SNAP / валидация для визуала (можно публиковать PlacementPreviewChanged и т.д.)
-        }
-
-        /*private void HandleConfirm(Vector3 worldPos)
+        private void ConfirmPlacement(Vector3 worldPos)
         {
             if (!_isPlacing) return;
 
-            var placementPos = worldPos; // или _pointerPos
-            var validation = _validator.CanPlace(_currentType, placementPos);
-            if (!validation.IsOk)
-            {
-                _eventBus?.Publish(new PlacementFailedMsg(validation.Reason));
+            (int x, int y) = _gridRepository.WorldToCell(worldPos);
+
+            if (_gridRepository.IsCellOccupied(x, y))
                 return;
-            }
 
-            var building = Domain.Building.Create(_currentType, placementPos);
-            _repo.Add(building);
-            _factory.Create(building);
+            _buildingFactory.Create(_currentType, worldPos);
+            _gridRepository.SetCellOccupied(x, y, true);
 
             _isPlacing = false;
-            _eventBus?.Publish(new BuildingPlacedMsg(building.Id, placementPos));
-            _eventBus?.Publish(new PlacementModeChanged(false));
+            _confirmSub?.Dispose();
         }
-
-        private void HandleCancel()
-        {
-            if (!_isPlacing) return;
-            _isPlacing = false;
-            _eventBus?.Publish(new PlacementModeChanged(false));
-        }*/
 
         public void Dispose()
         {
             _startSub?.Dispose();
-            _moveSub?.Dispose();
             _confirmSub?.Dispose();
-            _cancelSub?.Dispose();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Infrastructure.InputSystem.Adapters
     {
         public IEvent<Vector3> OnPointerMove { get; }
         public IEvent<Vector3> OnConfirm { get; }
+        public IEvent<Vector3> OnCancel { get; }
         public IEvent<BuildingType> OnStartPlacement { get; }
         
         public PlacementInputAdapter
@@ -24,7 +25,7 @@ namespace Infrastructure.InputSystem.Adapters
         {
             OnPointerMove = new MessagePipeEventMapper<PointerWorldPosMsg, Vector3>(posSub, msg => msg.WorldPosition);
             OnConfirm = new MessagePipeEventMapper<ConfirmPlacementMsg, Vector3>(confirmSub, msg => msg.WorldPosition);
-            //OnCancel = new MessagePipeEventMapper<CancelPlacementMsg, Unit>(cancelSub, _ => default);
+            OnCancel = new MessagePipeEventMapper<CancelPlacementMsg, Vector3>(cancelSub, _ => default);
             OnStartPlacement = new MessagePipeEventMapper<StartPlacementMsg, BuildingType>(startSub, msg => msg.Type);
         }
     }

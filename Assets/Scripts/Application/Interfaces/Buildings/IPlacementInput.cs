@@ -8,7 +8,7 @@ namespace Application.Interfaces.Buildings
     {
         IEvent<Vector3> OnPointerMove { get; }
         IEvent<Vector3> OnConfirm { get; }
-        //IEvent<Unit> OnCancel { get; } 
+        IEvent<Vector3> OnCancel { get; } 
         IEvent<BuildingType> OnStartPlacement { get; }
     }
 }

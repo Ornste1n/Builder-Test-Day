@@ -5,11 +5,12 @@ using System.Threading;
 using Application.Messages;
 using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
+using Application.Interfaces.Entity;
 using UnityEngine.InputSystem.Controls;
 
 namespace Infrastructure.InputSystem.Services
 {
-    public class CameraInputService
+    public class CameraInputService : INonLazy, IDisposable
     {
         private readonly InputSystemControls _inputControls;
         

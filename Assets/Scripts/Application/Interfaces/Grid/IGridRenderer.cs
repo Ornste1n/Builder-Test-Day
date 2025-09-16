@@ -7,5 +7,7 @@ namespace Application.Interfaces.Grid
     {
         void Render(GridRenderData data);
         void UpdateCell(int x, int y, Color color);
+        Color GetCellColor(int x, int y);
+        void HighlightCellAtWorldPos(Vector3 worldPos);
     }
 }

@@ -6,7 +6,8 @@
         "Application",
         "Repositories",
         "AYellowpaper.SerializedCollections",
-        "UniTask"
+        "UniTask",
+        "MessagePipe"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -20,7 +20,7 @@ namespace Application.UseCases.Grid
         public void Execute()
         {
             IGridConfig config = _gridConfig;
-            GridMap gridMap = new(config.Width, config.Height);
+            GridMap gridMap = new(config.Width, config.Height, config.CellSize);
             
             _gridRepository.SetGrid(gridMap);
 

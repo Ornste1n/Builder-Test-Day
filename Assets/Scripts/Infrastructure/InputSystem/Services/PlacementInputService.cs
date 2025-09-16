@@ -3,15 +3,14 @@ using MessagePipe;
 using UnityEngine;
 using Application.Messages;
 using UnityEngine.InputSystem;
-using Application.Interfaces.Entity;
 using Infrastructure.WorldSettings;
+using Application.Interfaces.Entity;
 
 namespace Infrastructure.InputSystem.Services
 {
     public class PlacementInputService : INonLazy, IDisposable
     {
         private readonly InputSystemControls _controls;
-        private readonly IPublisher<PointerWorldPosMsg> _posPublisher;
         private readonly IPublisher<ConfirmPlacementMsg> _confirmPublisher;
         private readonly IPublisher<CancelPlacementMsg> _cancelPublisher;
 
@@ -20,17 +19,13 @@ namespace Infrastructure.InputSystem.Services
         public PlacementInputService
         (
             InputSystemControls controls,
-            IPublisher<PointerWorldPosMsg> posPub,
-            IPublisher<ConfirmPlacementMsg> confirmPub,
-            IPublisher<CancelPlacementMsg> cancelPub
+            IPublisher<ConfirmPlacementMsg> confirmPublisher,
+            IPublisher<CancelPlacementMsg> cancelPublisher
         )
         {
             _controls = controls;
-            _posPublisher = posPub;
-            _confirmPublisher = confirmPub;
-            _cancelPublisher = cancelPub;
-            
-            Debug.Log("PlacementInputService");
+            _confirmPublisher = confirmPublisher;
+            _cancelPublisher = cancelPublisher;
 
             Subscribe(_controls.UI);
         }
@@ -42,22 +37,15 @@ namespace Infrastructure.InputSystem.Services
             ui.Enable();
 
             ui.Click.performed += OnClickPerformed;
-            ui.Cancel.performed += OnCancelPerformed;
+            _controls.Player.Cancel.performed += OnCancelPerformed;
 
             _subscribed = true;
         }
 
         private void OnClickPerformed(InputAction.CallbackContext ctx)
         {
-            Debug.Log("OnClickPerformed");
-            
-            if (!TryGetScreenPosition(ctx, out Vector2 screen)) return;
-            
-            Debug.Log("TryGetScreenPosition");
-            
-            if (TryScreenPointToWorld(screen, out Vector3 world))
+            if (TryScreenPointToWorld(out Vector3 world))
             {
-                Debug.Log("TryScreenPointToWorld");
                 _confirmPublisher.Publish(new ConfirmPlacementMsg(world));
             }
         }
@@ -66,36 +54,8 @@ namespace Infrastructure.InputSystem.Services
         {
             _cancelPublisher.Publish(new CancelPlacementMsg());
         }
-        
-        private bool TryGetScreenPosition(InputAction.CallbackContext ctx, out Vector2 screen)
-        {
-            Mouse mouse = Mouse.current;
-            if (mouse != null)
-            {
-                screen = mouse.position.ReadValue();
-                return true;
-            }
 
-            Touchscreen touch = Touchscreen.current;
-            if (touch != null && touch.primaryTouch.press.isPressed)
-            {
-                screen = touch.primaryTouch.position.ReadValue();
-                return true;
-            }
-
-            try
-            {
-                screen = ctx.ReadValue<Vector2>();
-                return true;
-            }
-            catch
-            {
-                screen = default;
-                return false;
-            }
-        }
-
-        private bool TryScreenPointToWorld(Vector2 screen, out Vector3 world)
+        private bool TryScreenPointToWorld(out Vector3 world)
         {
             Camera cam = Camera.main;
             if (cam == null)
@@ -104,7 +64,7 @@ namespace Infrastructure.InputSystem.Services
                 return false;
             }
 
-            Ray ray = cam.ScreenPointToRay(screen);
+            Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << (int)WorldLayers.Ground))
             {
                 world = hit.point;
@@ -118,15 +78,14 @@ namespace Infrastructure.InputSystem.Services
         private void Unsubscribe(InputSystemControls.UIActions ui)
         {
             if (!_subscribed) return;
-            
+
             ui.Click.performed -= OnClickPerformed;
-            ui.Cancel.performed -= OnCancelPerformed;
+            _controls.Player.Cancel.performed -= OnCancelPerformed;
 
             ui.Disable();
-
             _subscribed = false;
         }
-        
+
         public void Dispose()
         {
             Unsubscribe(_controls.UI);

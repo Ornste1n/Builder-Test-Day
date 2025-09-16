@@ -13,9 +13,21 @@ namespace Presentation
         private const int VertsPerCell = 4;
         private const int TrisPerCell = 2;
 
+        private Color[] _colors;
+        private GridRenderData _gridRender;
+
+        private int _highlightedX = -1;
+        private int _highlightedY = -1;
+        private Color _highlightedOriginalColor;
+        private Color _highlightColor = Color.green;
+        
+        public GridRenderData GridRenderData => _gridRender;
+        
         public void Render(GridRenderData data)
         {
             Mesh mesh = BuildMesh(data);
+            
+            _gridRender = data;
             _meshFilter.mesh = mesh;
             _meshCollider.sharedMesh = mesh;
             _meshRenderer.material = data.GridMaterial;
@@ -23,8 +35,51 @@ namespace Presentation
 
         public void UpdateCell(int x, int y, Color color)
         {
-            
+            if (x < 0 || x >= _gridRender.Width || y < 0 || y >= _gridRender.Height) return;
+
+            int v = (y * _gridRender.Width + x) * VertsPerCell;
+            for (int i = 0; i < VertsPerCell; i++)
+                _colors[v + i] = color;
+
+            _meshFilter.mesh.colors = _colors;
         }
+
+        public Color GetCellColor(int x, int y)
+        {
+            if (x < 0 || x >= _gridRender.Width || y < 0 || y >= _gridRender.Height)
+                return GetDefaultCellColor();
+
+            int v = (y * _gridRender.Width + x) * VertsPerCell;
+            return _colors[v];
+        }
+
+        public void HighlightCellAtWorldPos(Vector3 worldPos)
+        {
+            if (_gridRender == null) return;
+
+            float cellSize = _gridRender.CellSize;
+            Vector3 origin = _gridRender.Origin;
+
+            float localX = worldPos.x - origin.x - cellSize / 2f;
+            float localZ = worldPos.z - origin.z - cellSize / 2f;
+
+            int x = Mathf.Clamp(Mathf.FloorToInt(localX / cellSize), 0, _gridRender.Width - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(localZ / cellSize), 0, _gridRender.Height - 1);
+            
+            if (x == _highlightedX && y == _highlightedY) return;
+
+            if (_highlightedX >= 0 && _highlightedY >= 0)
+                UpdateCell(_highlightedX, _highlightedY, _highlightedOriginalColor);
+
+            _highlightedOriginalColor = GetCellColor(x, y);
+
+            UpdateCell(x, y, _highlightColor);
+
+            _highlightedX = x;
+            _highlightedY = y;
+        }
+
+        private Color GetDefaultCellColor() => Random.value > 0.5f ? _gridRender.DefaultColorA : _gridRender.DefaultColorB;
 
         private Mesh BuildMesh(GridRenderData data)
         {
@@ -63,7 +118,8 @@ namespace Presentation
             } 
             mesh.vertices = verts;
             mesh.triangles = tris;
-            mesh.colors = colors; 
+            mesh.colors = colors;
+            _colors = colors;
             mesh.RecalculateBounds(); 
             mesh.RecalculateNormals(); 
             return mesh;

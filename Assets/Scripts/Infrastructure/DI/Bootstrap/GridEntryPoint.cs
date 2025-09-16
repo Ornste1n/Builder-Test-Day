@@ -6,7 +6,7 @@ using Application.Interfaces.Grid;
 
 namespace Infrastructure.DI.Bootstrap
 {
-    public class GridEntryPoint : IStartable, IDisposable
+    public class GridEntryPoint : IStartable
     {
         private readonly InitializeGridUseCase _initUseCase;
         private readonly ISubscriber<GridRenderData> _gridInitSub;
@@ -33,10 +33,6 @@ namespace Infrastructure.DI.Bootstrap
         private void Build(GridRenderData gridDto)
         {
             _gridMeshRenderer.Render(gridDto);
-        }
-        
-        public void Dispose()
-        {
         }
     }
 }

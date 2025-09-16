@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: House
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 21300000, guid: e2d898a604754ac44bb2852d92e2ac74, type: 3}
+  <Prefab>k__BackingField: {fileID: 8371394403700878939, guid: 62c0240cc3fc4c143a97d1592b939b05, type: 3}
   _buildingLevels:
     _serializedList:
     - Key: 0
